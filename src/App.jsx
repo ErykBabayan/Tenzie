@@ -19,6 +19,13 @@ export default function App(){
 		}
 		return newDice
 	}
+
+	function rollDice(){
+		setDices(allNewDices())
+	}
+
+
+
 	const diceElement = dices.map(die => {
 		return(
 			<Die 
@@ -36,6 +43,7 @@ export default function App(){
 				<div className="tenzies-container">
 				{diceElement}
 				</div>
+				<button className="roll-btn" onClick={rollDice}>Roll</button>
 			</div>
 		</main>
 	)
