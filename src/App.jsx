@@ -7,27 +7,21 @@ export default function App(){
 
 	const [dices, setDices] = React.useState(allNewDices())
 	const [hasWon,setHasWon] = React.useState(false)
-
+	const [isTimerActive,setIsTimerActive] = React.useState(false)
+	const [seconds,setSeconds] = React.useState(0)
 
 	React.useEffect(() => {
 		const firstValue = dices[0].value
 		const isAllEqual = dices.every(die => die.value === firstValue)
 		const isAllHeld = dices.every(die => die.isHeld)
 
-		if( isAllEqual&&isAllHeld )
-		{
+		if( isAllEqual&&isAllHeld ){
 			setHasWon(prevHasWon => !prevHasWon)
+			setIsTimerActive(false)
 		}
-
-
-
-
 	},[dices])
-	
 
-	function allEqual(array){
-		return array.every(value => value === array[0])
-	}
+
 
 	function allNewDices(){
 		const newDice = []
@@ -38,7 +32,7 @@ export default function App(){
 	}
 
 	function generateNewDice(){
-		const randomDieNumber = Math.ceil(Math.random()*6)
+		const randomDieNumber = Math.ceil(Math.random()*2)
 
 		return {
 			id: nanoid(),
@@ -47,29 +41,31 @@ export default function App(){
 		}
 	}
 
-
-
-
 	function holdDice(clickedDiceId){
-		
+		setIsTimerActive(true)
 		setDices(prevDices => prevDices.map(die => {
 			return die.id === clickedDiceId ? {...die, isHeld: !die.isHeld} : die
 		}))
 	}
 	
 	function rollDice(){
+			setIsTimerActive(true)
 			setDices(prevDices => prevDices.map(die => {
 				return die.isHeld ? die : generateNewDice()
 			}))
-
 		}
 
 
 	function playAgain(){
 		setDices(allNewDices())
 		setHasWon(prevHasWon => !prevHasWon)
+		resetTimer()
 	}
 
+	function resetTimer(){
+		setSeconds(0)
+		setIsTimerActive(false)
+	}
 
 	const diceElement = dices.map(die => {
 		return(
@@ -82,8 +78,21 @@ export default function App(){
 		)
 	})
 
+
+	React.useEffect(() => {
+			let timerInterval = null
+			if(isTimerActive){
+				timerInterval=setInterval(() => {
+					setSeconds(prevSeconds => prevSeconds+1)
+				}, 1000);
+			}
+			return () => clearInterval(timerInterval);
+	},[isTimerActive])
+
+
 	const gameButton = <button className="roll-btn" onClick={rollDice}>Roll</button>
 	const winButton = <button className="roll-btn" onClick={playAgain}>Play Again</button>
+	
 	return(
 		<main>
 			<div className="app-container">	
