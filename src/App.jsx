@@ -7,8 +7,12 @@ export default function App(){
 
 	const [dices, setDices] = React.useState(allNewDices())
 	const [hasWon,setHasWon] = React.useState(false)
+
 	const [isTimerActive,setIsTimerActive] = React.useState(false)
 	const [seconds,setSeconds] = React.useState(0)
+	const [rolls,setRolls] = React.useState(0)
+
+
 
 	React.useEffect(() => {
 		const firstValue = dices[0].value
@@ -18,6 +22,7 @@ export default function App(){
 		if( isAllEqual&&isAllHeld ){
 			setHasWon(prevHasWon => !prevHasWon)
 			setIsTimerActive(false)
+			setHighScore()
 		}
 	},[dices])
 
@@ -32,7 +37,7 @@ export default function App(){
 	}
 
 	function generateNewDice(){
-		const randomDieNumber = Math.ceil(Math.random()*2)
+		const randomDieNumber = Math.ceil(Math.random()*6)
 
 		return {
 			id: nanoid(),
@@ -50,21 +55,32 @@ export default function App(){
 	
 	function rollDice(){
 			setIsTimerActive(true)
+			setRolls(prevRolls => prevRolls+1)
+			
 			setDices(prevDices => prevDices.map(die => {
 				return die.isHeld ? die : generateNewDice()
 			}))
 		}
 
-
 	function playAgain(){
-		setDices(allNewDices())
 		setHasWon(prevHasWon => !prevHasWon)
-		resetTimer()
-	}
-
-	function resetTimer(){
+		setDices(allNewDices())
 		setSeconds(0)
 		setIsTimerActive(false)
+		setRolls(0)
+	}
+
+	function setHighScore(){
+
+		let bestTime = localStorage.getItem("bestTime")
+		let bestScore = localStorage.getItem("bestScore")
+		
+		if(seconds < bestTime || bestTime == null){
+			localStorage.setItem("bestTime",JSON.stringify(seconds))
+		}
+		if(rolls < bestScore || bestScore == null){
+			localStorage.setItem("bestScore",JSON.stringify(rolls))
+		}
 	}
 
 	const diceElement = dices.map(die => {
@@ -80,7 +96,7 @@ export default function App(){
 
 
 	React.useEffect(() => {
-			let timerInterval = null
+			let timerInterval
 			if(isTimerActive){
 				timerInterval=setInterval(() => {
 					setSeconds(prevSeconds => prevSeconds+1)
@@ -88,6 +104,7 @@ export default function App(){
 			}
 			return () => clearInterval(timerInterval);
 	},[isTimerActive])
+
 
 
 	const gameButton = <button className="roll-btn" onClick={rollDice}>Roll</button>
@@ -106,12 +123,12 @@ export default function App(){
 				{hasWon ? winButton : gameButton}
 				</div>
 				<div className="score-container">
-					<div className="score">Moves: 20</div>
-					<div className="best-score">Best Score: 25</div>
+					<div className="score">Rolls: {rolls}</div>
+					<div className="best-score">Best Score: {localStorage.getItem("bestScore") || 0 }</div>
 				</div>
 				<div className="time-container">
 					<div className="time">Time: {seconds}s</div>
-					<div className="best-time">Best time: Xs</div>
+					<div className="best-time">Best time: {localStorage.getItem("bestTime") || 0 }s</div>
 				</div>
 			</div>
 		</main>
