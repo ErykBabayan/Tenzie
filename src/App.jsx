@@ -93,7 +93,17 @@ export default function App(){
 				<div className="tenzies-container">
 				{diceElement}
 				</div>
+				<div className="button-wrapper">
 				{hasWon ? winButton : gameButton}
+				</div>
+				<div className="score-container">
+					<div className="score">Moves: 20</div>
+					<div className="best-score">Best Score: 25</div>
+				</div>
+				<div className="time-container">
+					<div className="time">Time: {seconds}s</div>
+					<div className="best-time">Best time: Xs</div>
+				</div>
 			</div>
 		</main>
 	)

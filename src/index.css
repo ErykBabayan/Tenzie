@@ -31,13 +31,14 @@ h3 {
 
 .app-container {
 	display: flex;
-	flex-direction: column;
+	flex-wrap: wrap;
 	align-items: center;
 	text-align: center;
+	justify-content: center;
 	background-color: #ebebeb;
 	max-width: 600px;
 	border-radius: 15px;
-	max-height: 700px;
+	max-height: 800px;
 }
 
 .tenzies-container {
@@ -60,14 +61,30 @@ h3 {
 	font-size: 2rem;
 	font-weight: 700;
 }
+.button-wrapper {
+	width: 100%;
+}
 .roll-btn {
 	background-color: #5035ff;
 	padding: 1rem 4rem;
 	margin: 2rem 0;
 	border-radius: 6px;
-	background-color: #5035ff;
 	color: white;
 	font-size: 2rem;
 	font-family: "Karla", sans-serif;
 	cursor: pointer;
+}
+.score-container {
+	padding: 1rem;
+	width: 50%;
+	text-align: left;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+.time-container {
+	width: 50%;
+	padding: 1rem;
+	text-align: right;
+	font-size: 1.5rem;
+	font-weight: bold;
 }
