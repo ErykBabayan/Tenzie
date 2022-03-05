@@ -88,3 +88,53 @@ h3 {
 	font-size: 1.5rem;
 	font-weight: bold;
 }
+
+@media screen and (max-width: 650px) {
+	.app-container {
+		max-width: 90%;
+	}
+	h3 {
+		max-width: 90%;
+	}
+	.dice {
+		width: 11vw;
+		height: 11vw;
+	}
+}
+@media screen and (max-width: 570px) {
+	.dice {
+		margin: 15px;
+		font-size: 1.5rem;
+	}
+}
+@media screen and (max-width: 450px) {
+	h3 {
+		font-size: 1rem;
+	}
+	.dice {
+		margin: 12px;
+		font-size: 1.5rem;
+	}
+	.score-container {
+		font-size: 1.2rem;
+	}
+	.time-container {
+		font-size: 1.2rem;
+	}
+	.roll-btn {
+		background-color: #5035ff;
+		padding: 0.5rem 3rem;
+		font-size: 1.5rem;
+	}
+}
+@media screen and (max-width: 350px) {
+	.dice {
+		margin: 10px;
+	}
+	.score-container {
+		font-size: 1rem;
+	}
+	.time-container {
+		font-size: 1rem;
+	}
+}
